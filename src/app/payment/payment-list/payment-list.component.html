@@ -17,7 +17,7 @@
             <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
             <mat-cell *matCellDef="let element">
                 <span [ngClass]="{'red': element.status === 99, 'green': element.status === 1}">{{element.statusDescription}}</span>
-                <button *ngIf="element.status === 1" mat-raised-button (click)="onStatusChangeClick(element)">Change Status</button>
+                <button *ngIf="element.status === 0" mat-raised-button (click)="onStatusChangeClick(element)">Change Status</button>
             </mat-cell>
         </ng-container>
 

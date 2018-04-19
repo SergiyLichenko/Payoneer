@@ -28,7 +28,6 @@ export class PaymentListComponent implements OnInit {
 
     onStatusChangeClick(payment: IPayment) {
         const dialogRef = this.dialog.open(PaymentEditComponent, {
-            width: '250px',
             data: payment
         });
 
