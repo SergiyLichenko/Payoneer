@@ -1,0 +1,37 @@
+<div class="container mat-elevation-z8">
+
+    <h2>Filter by</h2>
+    <section>
+        <mat-checkbox (click)="onStatusChange(0)">Pending</mat-checkbox>
+        <mat-checkbox (click)="onStatusChange(1)" >Approved</mat-checkbox>
+        <mat-checkbox (click)="onStatusChange(99)" >Rejected</mat-checkbox>
+    </section>
+
+    <mat-table #table [dataSource]="filteredPayments">
+        <ng-container matColumnDef="paymentDate">
+            <mat-header-cell *matHeaderCellDef> Payment Date </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.paymentDate | date: 'dd/MM/yyyy HH:MM'}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="statusDescription">
+            <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span [ngClass]="{'red': element.status === 99, 'green': element.status === 1}">{{element.statusDescription}}</span>
+                <button *ngIf="element.status === 1" mat-raised-button>Change Status</button>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+            <mat-header-cell *matHeaderCellDef> Amount </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.amount | number : '1.2-2'}} {{element.currency}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="reason">
+            <mat-header-cell *matHeaderCellDef> Reason </mat-header-cell>
+            <mat-cell class="reason-overflow" *matCellDef="let element"> {{element.reason}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+</div>
