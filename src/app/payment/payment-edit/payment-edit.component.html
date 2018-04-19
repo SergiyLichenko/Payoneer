@@ -1,0 +1,16 @@
+<form #editForm="ngForm">
+    <mat-radio-group name="status" ngModel>
+        <mat-radio-button [value]="1">
+            Approve
+        </mat-radio-button>
+        <mat-radio-button [value]="99">
+            Reject
+        </mat-radio-button>
+    </mat-radio-group>
+
+    <mat-form-field>
+        <input minlength="10" matInput placeholder="Reason" name="reason" ngModel>
+    </mat-form-field>
+    <button (click)="onClose()" mat-button>Cancel</button>
+    <button (click)="onOk(editForm.value)" mat-raised-button color="primary" type="submit" mat-button>Ok</button>
+</form>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IPayment } from '../shared/payment.model';
 import { PaymentService } from '../payment.service';
+import { MatDialog } from '@angular/material';
+import { PaymentEditComponent } from '../payment-edit/payment-edit.component';
 
 @Component({
     templateUrl: './payment-list.component.html',
@@ -13,7 +15,8 @@ export class PaymentListComponent implements OnInit {
     payments: IPayment[];
     hiddenStatuses = [];
 
-    constructor(private paymentService: PaymentService) {
+    constructor(private paymentService: PaymentService,
+        private dialog: MatDialog) {
     }
 
     ngOnInit(): void {
@@ -21,6 +24,17 @@ export class PaymentListComponent implements OnInit {
             this.payments = x;
             this.filteredPayments = x;
         });
+    }
+
+    onStatusChangeClick(payment: IPayment) {
+        const dialogRef = this.dialog.open(PaymentEditComponent, {
+            width: '250px',
+            data: payment
+        });
+
+        dialogRef.afterClosed().subscribe(x => {
+            console.log(x);
+        })
     }
 
     onStatusChange(status: number) {
@@ -34,7 +48,7 @@ export class PaymentListComponent implements OnInit {
         this.onFilterPayments();
     }
 
-    onFilterPayments() {
+    private onFilterPayments() {
         if (this.hiddenStatuses.length === 0)
             this.filteredPayments = this.payments;
         else
