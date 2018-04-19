@@ -1,28 +1,36 @@
 <form #editForm="ngForm" class="container">
-    <div class="row">
-        <mat-radio-group id="status" name="status" required ngModel>
-            <mat-radio-button [value]="1">
-                Approve
-            </mat-radio-button>
-            <mat-radio-button [value]="99">
-                Reject
-            </mat-radio-button>
-        </mat-radio-group>
+    <div [ngSwitch]="payment.status">
+        <div *ngSwitchCase="0">
+            <div class="row">
+                <mat-radio-group id="status" name="status" required ngModel>
+                    <mat-radio-button [value]="1">
+                        Approve
+                    </mat-radio-button>
+                    <mat-radio-button [value]="99">
+                        Reject
+                    </mat-radio-button>
+                </mat-radio-group>
 
-        <em class="right error" *ngIf="editForm.controls?.status?.invalid">Required</em>
+                <em class="right error" *ngIf="editForm.controls?.status?.invalid">Required</em>
+            </div>
+
+            <br>
+            <div class="row">
+                <mat-form-field>
+                    <input required maxlength="250" matInput placeholder="Reason" name="reason" [ngModel]="payment.reason">
+                </mat-form-field>
+                <em class="error" *ngIf="editForm.controls.reason?.invalid">Required</em>
+            </div>
+        </div>
+        <div *ngSwitchDefault>
+            You cannot edit selected payment
+        </div>
     </div>
 
-    <br>
-    <div class="row">
-        <mat-form-field>
-            <input required maxlength="250" matInput placeholder="Reason" name="reason" [ngModel]="payment.reason">
-        </mat-form-field>
-        <em class="error" *ngIf="editForm.controls.reason?.invalid">Required</em>
-    </div>
 
     <br>
     <div class="row">
         <button (click)="onClose()" mat-button>Cancel</button>
-        <button (click)="onOk(editForm.value)" [disabled]="editForm.invalid" mat-raised-button color="primary" type="submit" mat-button>Ok</button>
+        <button (click)="onOk(editForm.value)" [disabled]="editForm.invalid || payment.status !==0" mat-raised-button color="primary" type="submit" mat-button>Ok</button>
     </div>
 </form>

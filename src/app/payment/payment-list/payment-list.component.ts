@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { IPayment } from '../shared/payment.model';
 import { PaymentService } from '../payment.service';
 import { MatDialog } from '@angular/material';
 import { PaymentEditComponent } from '../payment-edit/payment-edit.component';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
     templateUrl: './payment-list.component.html',
@@ -10,12 +12,15 @@ import { PaymentEditComponent } from '../payment-edit/payment-edit.component';
 })
 export class PaymentListComponent implements OnInit {
 
+
     displayedColumns = ['paymentDate', 'statusDescription', 'amount', 'reason']
     filteredPayments: IPayment[];
     payments: IPayment[];
     hiddenStatuses = [];
 
     constructor(private paymentService: PaymentService,
+        private location: Location,
+        private activatedRoute: ActivatedRoute,
         private dialog: MatDialog) {
     }
 
@@ -24,19 +29,26 @@ export class PaymentListComponent implements OnInit {
             this.payments = x;
             this.filteredPayments = x;
         });
+
+        setTimeout(() => {
+            this.activatedRoute.data.subscribe(x => {
+                const payment = x['payment'];
+                if(!payment) return;
+
+                this.onStatusChangeClick(payment);
+            });
+        }, 0);
     }
 
     onStatusChangeClick(payment: IPayment) {
-        const dialogRef = this.dialog.open(PaymentEditComponent, {
-            data: payment
-        });
+        const dialogRef = this.dialog.open(PaymentEditComponent, { data: payment });
+        dialogRef.afterClosed().subscribe((x: IPayment) => {
+            this.location.replaceState(`payments`);
+            if (!x) return;
 
-        dialogRef.afterClosed().subscribe(x => {
-            if(!x) return;
-            
-            payment.status = x.status;
-            payment.reason = x.reason;
-        })
+            this.paymentService.update(x);
+            Object.assign(payment, x);
+        });
     }
 
     onStatusChange(status: number) {

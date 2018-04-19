@@ -6,7 +6,7 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class PaymentService {
 
-    private items: IPayment[] = [
+    private payments: IPayment[] = [
         {
             id: 832321,
             accountHolderId: "15651",
@@ -54,6 +54,20 @@ export class PaymentService {
     ];
 
     getList(): Observable<IPayment[]> {
-        return Observable.of(this.items);
+        return Observable.of(this.payments);
+    }
+
+    getById(id: number) {
+        if(!id) return;
+        
+        const payment = this.payments.find(x => x.id === id);
+        return Observable.of(payment);
+    }
+
+    update(payment: IPayment) {
+        if (payment) return;
+
+        let foundPayment = this.payments.find(x => x.id === payment.id);
+        Object.assign(foundPayment, payment);
     }
 }

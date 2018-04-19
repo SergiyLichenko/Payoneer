@@ -16,6 +16,7 @@ import { PaymentEditComponent } from './payment/payment-edit/payment-edit.compon
 import { Error404Component } from './error/404.component';
 
 import { PaymentService } from './payment/payment.service';
+import { PaymentResovlerService } from './payment/payment-resolver.service';
 
 
 
@@ -40,7 +41,8 @@ import { PaymentService } from './payment/payment.service';
   ],
   entryComponents: [PaymentEditComponent],
   providers: [
-    PaymentService
+    PaymentService,
+    PaymentResovlerService
   ],
   bootstrap: [AppComponent]
 })
