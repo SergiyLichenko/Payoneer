@@ -15,11 +15,11 @@ export class PaymentEditComponent {
         this.payment = data;
     }
 
-    onClose(){
+    onClose() {
         this.dialogRef.close();
     }
 
-    onOk(obj: any){
-        console.log(obj);
+    onOk(obj: any) {
+        this.dialogRef.close(obj);
     }
 }

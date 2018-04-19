@@ -16,7 +16,7 @@ export class PaymentService {
             currency: "EUR",
             status: 0,
             statusDescription: "Pending",
-            reason: null
+            reason: "Initial reason"
         },
         {
             id: 806532,

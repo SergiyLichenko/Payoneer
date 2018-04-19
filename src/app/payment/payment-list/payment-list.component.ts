@@ -32,7 +32,10 @@ export class PaymentListComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(x => {
-            console.log(x);
+            if(!x) return;
+            
+            payment.status = x.status;
+            payment.reason = x.reason;
         })
     }
 
