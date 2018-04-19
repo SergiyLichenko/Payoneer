@@ -22,3 +22,7 @@
 .mat-raised-button {
     margin-left: 20px;
 }
+
+mat-table {
+    margin-top: 20px;
+}
