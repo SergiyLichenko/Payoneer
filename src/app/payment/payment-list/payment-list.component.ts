@@ -34,7 +34,7 @@ export class PaymentListComponent implements OnInit {
             this.activatedRoute.data.subscribe(x => {
                 const payment = x['payment'];
                 if(!payment) return;
-
+                
                 this.onStatusChangeClick(payment);
             });
         }, 0);

@@ -10,11 +10,11 @@ import { By } from '@angular/platform-browser';
 describe('PaymentListComponent integrated', () => {
     let component: PaymentListComponent;
     let fixture: ComponentFixture<PaymentListComponent>;
-
     let paymentService: any;
+
     beforeEach(async () => {
         paymentService = jasmine.createSpyObj('paymentService', ['getList']);
-        paymentService.getList.and.returnValue(Observable.of(payments))
+        paymentService.getList.and.returnValue(Observable.of(payments));
 
         TestBed.configureTestingModule({
             imports: [SharedMaterialModule, RouterTestingModule],
